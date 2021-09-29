@@ -1,0 +1,80 @@
+{% extends "base.html" %} 
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+<div class="container">
+  <div class="col-md-8 card mb-4  mt-3 left  top">
+    <div class="card-body">
+      <h1>{% block title %} {{ posts.title }} {% endblock title %}</h1>
+      <h3>{{posts.content }}</h3>
+      <h6>Author: {{ posts.created_by }}</h6>
+      <h6>Created on: {{ posts.created_at}}</h6>
+      <h6>Last updated: {{ posts.updated_at}}</h6>
+      <h6>Post status (0 is active): {{ posts.status}}</h6>
+      {% if user.is_authenticated %}
+        <a href="#" onClick="document.getElementById('likebutton').submit()">Like This Post</a> {{posts.likes}}   |   
+        <a href="#" onClick="document.getElementById('dislikebutton').submit()">Dislike This Post</a> {{posts.dislikes}}
+        <form id="likebutton" method="POST" action="preference/1/">
+          {% csrf_token %}
+          <input type="hidden">
+        </form>
+        <form id="dislikebutton" method="POST" action="preference/2/">
+          {% csrf_token %}
+          <input type="hidden">
+        </form>
+              <form>
+                <a href="{% url 'update' posts.pk  %}" class="btn btn-primary btn-large">Update</a>
+                <a href="{% url 'delete' posts.pk  %}" class="btn btn-danger btn-large">Delete</a>
+              </form>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h2>{{ comments.count }} comment(s)</h2>
+        {% for comment in comments.all %}
+        <div class="comments" style="padding: 10px;">
+          <p class="font-weight-bold">
+            <h5>Comment by {{ comment.created_by }} on {{ comment.post }}</h5>
+            <span class=" text-muted font-weight-normal">
+              {{ comment.created_at }}
+            </span>
+          </p>
+          <h3>{{ comment.message | linebreaks }}</h3>
+          {% if user.is_authenticated %}
+          <form>
+            <a href="{% url 'comment-update' posts.pk comment.id  %}" class="btn btn-primary">Update Comment! &rarr;</a>
+            <a href="{% url 'comment-delete' posts.pk comment.id  %}" class="btn btn-danger">Delete</a>
+          </form>
+        {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h3>Leave a comment</h3>
+        <ul class="navbar-nav ml-auto">
+          <form method="POST" action="comment/">
+            <p>Response: <input type="text" name="message">
+            {{ comment_form | crispy }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Reply &rarr;</a>
+          </form>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

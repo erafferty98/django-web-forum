@@ -1,0 +1,40 @@
+{% extends "base.html" %} 
+{% block content %}
+{% load crispy_forms_tags %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h1>{% block title %} {{ posts.title }} {% endblock title %}</h1>
+        <h3>{{ posts.content }}</h3>
+        <h6>Author: {{ posts.created_by }}</h6>
+        <h6>Created on: {{ posts.created_at}}</h6>
+        <h6>Last updated: {{ posts.updated_at}}</h6>
+      </div>
+    </div>
+  </div>
+{% if user.is_authenticated %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h3>Edit post below</h3>
+        <form method="post" style="margin-top: 1.3em;">
+          {{ post_update_form | crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Update</button>
+      </div>
+    </div>
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+{% endblock  %}

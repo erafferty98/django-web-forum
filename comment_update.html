@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+{% block content %}
+{% load crispy_forms_tags %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h1>{% block title %} {{ comments.post }} {% endblock title %}</h1>
+        <h3>{{ comments.message }}</h3>
+        <h6>Author: {{ comments.created_by }}</h6>
+        <h6>Created on: {{ comments.created_at}}</h6>
+      </div>
+    </div>
+  </div>
+{% if user.is_authenticated %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h3>Edit comment below</h3>
+        <form method="post" style="margin-top: 1.3em;">
+          {{ comment_update_form | crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Update</button>
+        </form>
+        <form>
+          <a href="{% url 'comment-delete' comments.pk  %}" class="btn btn-danger btn-large">Delete</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+{% endblock  %}

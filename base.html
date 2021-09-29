@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+        {% block stylesheet %}{% endblock stylesheet %}
+    </head>
+    <body>
+        {% block body %}
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="http://10.61.64.79:8000/v1/posts">Piazza Forum</a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse" 
+                        data-target="#mainMenu"
+                        aria-controls="mainMenu"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"></button>
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="mainMenu">
+                        {% if user.is_authenticated %}
+                            <ul class="navbar-nav ml-auto">
+                                <form class="form-inline ml-auto">
+                                    <a href="http://10.61.64.79:8000/admin/logout" class="btn btn-primary ml-2">Logout</a>
+                                </form>
+                            </ul>
+                        {% else %}
+                            <form class="form-inline ml-auto">
+                                <a href="http://10.61.64.79:8000/admin/login" class="btn btn-primary ml-2">Login</a>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="container">
+                <ol class="breadcrumb my-4">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </ol>
+            </div>
+        {% endblock body %}
+    </body>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+        <meta name="google" content="notranslate" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous" />
+    </head>
+
+    <body>
+        <style>
+            body {
+            font-family: "Roboto", sans-serif;
+            font-size: 17px;
+            background-color: #fdfdfd;
+        }
+        .shadow {
+            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+        }
+        .btn-danger {
+            color: #fff;
+            background-color: #f00000;
+            border-color: #dc281e;
+        }
+        .masthead {
+            background: #3398E1;
+            height: auto;
+            padding-bottom: 15px;
+            box-shadow: 0 16px 48px #E3E7EB;
+            padding-top: 10px;
+        }
+    </style>
+        {% block content %}
+        <!-- Content Goes here -->
+        {% endblock content %}
+    </body>
+    <footer class="py-3 bg-grey">
+        <p class="m-0 text-dark text-center ">Copyright &copy; Django Central</p>
+    </footer>
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+        }
+    </script>
+</html>
