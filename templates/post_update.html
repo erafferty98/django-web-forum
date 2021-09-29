@@ -1,0 +1,22 @@
+{% extends "base.html" %} 
+{% block content %}
+{% load crispy_forms_tags %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+<h3>Would you like to update or delete this post?</h3>
+<form method="POST">
+    <h4> Update Post</h4>
+    {% csrf_token %}
+    {% for field in form %}
+        {{ field }}
+    {% endfor %}
+    <button type="submit" value="submit">Update Post</button>
+</form>
+
+  <form method="POST">
+    <h4> Delete Post</h4>
+    {% csrf_token %}
+    <input type="submit" value="Confirm Delete" class="btn btn-danger btn-large">
+    <a href="{% url 'posts:posts' username=user.username pk=object.pk %}" class="btn btn-simple btn-large btn-default">Cancel</a>
+  </form>
+{% endblock  %}
